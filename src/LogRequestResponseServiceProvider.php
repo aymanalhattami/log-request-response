@@ -1,6 +1,6 @@
 <?php
 
-namespace Aymanalhattami\LogRequestResponse;
+namespace AymanAlhattami\LogRequestResponse;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -21,7 +21,7 @@ class LogRequestResponseServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('log-request-response.php'),
+                __DIR__.'/../config/log-request-response.php' => config_path('log-request-response.php'),
             ], 'config');
 
             // Publishing the views.
