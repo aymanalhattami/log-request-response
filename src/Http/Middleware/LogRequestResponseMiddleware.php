@@ -16,13 +16,14 @@ class LogRequestResponseMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $request->start = microtime(true);
+        $request->start_time = microtime(true);
         return $next($request);
     }
 
     public function terminate($request, $response)
     {
-        $request->end = microtime(true);
+        $request->end_time = microtime(true);
+
         $this->log($request, $response);
     }
 
@@ -41,7 +42,7 @@ class LogRequestResponseMiddleware
 
     private function getDuration($request): string
     {
-        return ($request->end - $request->start) . 'ms';
+        return ($request->end_time - $request->start_time) . 'ms';
     }
 
     private function getUrl($request): string
