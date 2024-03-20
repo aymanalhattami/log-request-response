@@ -3,7 +3,6 @@
 return [
     'enabled' => true,
     'log_level' => 'info',
-    'log_channel' => env('LOG_REQUEST_RESPONSE_CHANNEL', 'daily'),
 
     'enable_log_auth' => true,
     'enable_log_request' => true,
@@ -15,8 +14,14 @@ return [
     'enable_log_duration' => true,
 
     'columns' => [
-        'only' => [],
-        'except' => []
+        'request' => [
+            'only' => ['*'],
+            'except' => ['*']
+        ],
+        'response' => [
+            'only' => ['*'],
+            'except' => ['*']
+        ]
     ],
 
     'urls' => [

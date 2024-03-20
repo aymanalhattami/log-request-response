@@ -17,26 +17,39 @@ class LogRequestResponseMiddleware
     public function handle(Request $request, Closure $next)
     {
         $request->start_time = microtime(true);
+        $request->id = Str::uuid();
+
+        $this->logRequest($request);
 
         return $next($request);
+    }
+
+    private function logRequest(Request $request)
+    {
+        Log::info('Request', [
+            'id' => $request->id,
+            'start_time' => now(),
+            "request" => Arr::except($request->all(), ['password', 'password_confirmation']),
+            "header" => $this->getHeaders($request),
+            'url' => $this->getUrl($request),
+            "ip" => $this->getIp($request),
+            "method" => $this->getMethod($request),
+            "duration" => $this->getDuration($request),
+        ]);
     }
 
     public function terminate($request, $response)
     {
         $request->end_time = microtime(true);
 
-        $this->log($request, $response);
+        $this->logResponse($request, $response);
     }
 
-    protected function log($request, $response)
+    protected function logResponse($request, $response)
     {
-        Log::info('Request and response', [
-            "request" => Arr::except($request->all(), ['password', 'password_confirmation']),
+        Log::info('Response', [
             "response" => $this->getResponse($response),
-            "header" => $this->getHeaders($request),
-            'url' => $this->getUrl($request),
-            "ip" => $this->getIp($request),
-            "method" => $this->getMethod($request),
+            'end_time' => now(),
             "duration" => $this->getDuration($request),
         ]);
     }
