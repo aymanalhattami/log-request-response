@@ -57,7 +57,7 @@ class LogRequestResponseMiddleware
 
     private function getDuration($request): string
     {
-        return ($request->header('X-Start-Time') - $request->header('X-End-Time')) . 'ms';
+        return ($request->header('X-End-Time') - $request->header('X-Start-Time')) . 'ms';
     }
 
     private function getUrl($request): string
