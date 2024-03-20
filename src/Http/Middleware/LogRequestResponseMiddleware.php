@@ -14,8 +14,10 @@ class LogRequestResponseMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $request->start_time = microtime(true);
-        $request->id = Str::uuid()->toString();
+        $requestId = Str::uuid()->toString();
+
+        $request->headers->set('X-Request-Id', $requestId);
+        $request->headers->set('X-Start-Time', microtime(true));
 
         $this->logRequest($request);
 
@@ -25,7 +27,7 @@ class LogRequestResponseMiddleware
     private function logRequest(Request $request)
     {
         Log::info('Request', [
-            'request_id' => $request->id,
+            'request_id' => $request->header('X-Request-Id'),
             'start_time' => now(),
             "request" => Arr::except($request->all(), ['password', 'password_confirmation']),
             "header" => $this->getHeaders($request),
@@ -38,7 +40,7 @@ class LogRequestResponseMiddleware
 
     public function terminate($request, $response)
     {
-        $request->end_time = microtime(true);
+        $request->headers->set('X-End-Time', microtime(true));
 
         $this->logResponse($request, $response);
     }
@@ -46,7 +48,7 @@ class LogRequestResponseMiddleware
     protected function logResponse($request, $response)
     {
         Log::info('Response', [
-            'request_id' => $request->id,
+            'request_id' => $request->header('X-Request-Id'),
             "response" => $this->getResponse($response),
             'end_time' => now(),
             "duration" => $this->getDuration($request),
@@ -55,7 +57,7 @@ class LogRequestResponseMiddleware
 
     private function getDuration($request): string
     {
-        return ($request->end_time - $request->start_time) . 'ms';
+        return ($request->header('X-Start-Time') - $request->header('X-End-Time')) . 'ms';
     }
 
     private function getUrl($request): string
