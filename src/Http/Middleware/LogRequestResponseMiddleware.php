@@ -17,6 +17,7 @@ class LogRequestResponseMiddleware
     public function handle(Request $request, Closure $next)
     {
         $request->start_time = microtime(true);
+
         return $next($request);
     }
 
