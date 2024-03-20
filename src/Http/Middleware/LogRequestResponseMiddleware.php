@@ -30,7 +30,7 @@ class LogRequestResponseMiddleware
 
     protected function log($request, $response)
     {
-        Log::info('Log request and response', [
+        Log::info('Request and response', [
             "request" => Arr::except($request->all(), ['password', 'password_confirmation']),
             "response" => $this->getResponse($response),
             "header" => $this->getHeaders($request),

@@ -19,7 +19,7 @@ class LogRequestMiddleware
 
     protected function log($request)
     {
-        Log::info('Log request', [
+        Log::info('Request', [
             "request" => Arr::except($request->all(), ['password', 'password_confirmation']),
             "header" => $this->getHeaders($request),
             'url' => $this->getUrl($request),
