@@ -9,15 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
-use function PHPSTORM_META\type;
-use function Psy\debug;
 
 class LogRequestResponseMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
         $request->start_time = microtime(true);
-        $request->id = Str::uuid();
+        $request->id = Str::uuid()->toString();
 
         $this->logRequest($request);
 
@@ -27,7 +25,7 @@ class LogRequestResponseMiddleware
     private function logRequest(Request $request)
     {
         Log::info('Request', [
-            'id' => $request->id,
+            'request_id' => $request->id,
             'start_time' => now(),
             "request" => Arr::except($request->all(), ['password', 'password_confirmation']),
             "header" => $this->getHeaders($request),
@@ -48,6 +46,7 @@ class LogRequestResponseMiddleware
     protected function logResponse($request, $response)
     {
         Log::info('Response', [
+            'request_id' => $request->id,
             "response" => $this->getResponse($response),
             'end_time' => now(),
             "duration" => $this->getDuration($request),
