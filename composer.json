@@ -1,9 +1,14 @@
 {
     "name": "aymanalhattami/log-request-response",
-    "description": "Log Request and Response",
+    "description": "Log Request, response, headers, method, ip, duration between request and response, request start time, request end time",
     "keywords": [
         "aymanalhattami",
-        "log-request-response"
+        "log request and response",
+        "log request",
+        "log response",
+        "log headers",
+        "log method",
+        "log ip"
     ],
     "homepage": "https://github.com/aymanalhattami/log-request-response",
     "license": "MIT",
