@@ -35,12 +35,12 @@ Route::get('example', ExampleController)->middleware(LogRequestResponseMiddlewar
 use Illuminate\Support\Facades\Route;
 use AymanAlhattami\LogRequestResponse\Http\Middleware\LogRequestMiddleware;
 
-# to all routes
+# Log all routes
 Route::middleware(LogRequestMiddleware::class)->group(function() {
     // routes
 });
 
-# to single route
+# Log single route
 Route::get('example', ExampleController)->middleware(LogRequestMiddleware::class);
 ```
 
@@ -50,12 +50,12 @@ Route::get('example', ExampleController)->middleware(LogRequestMiddleware::class
 use Illuminate\Support\Facades\Route;
 use AymanAlhattami\LogRequestResponse\Http\Middleware\LogResponseMiddleware;
 
-# to all routes
+# Log all routes
 Route::middleware(LogResponseMiddleware::class)->group(function() {
     // routes
 });
 
-# to single route
+# Log single route
 Route::get('example', ExampleController)->middleware(LogResponseMiddleware::class);
 ```
 
@@ -65,12 +65,12 @@ Route::get('example', ExampleController)->middleware(LogResponseMiddleware::clas
 use Illuminate\Support\Facades\Route;
 use AymanAlhattami\LogRequestResponse\Http\Middleware\LogHeadersMiddleware;
 
-# to all routes
+# Log all routes
 Route::middleware(LogHeadersMiddleware::class)->group(function() {
     // routes
 });
 
-# to single route
+# Log single route
 Route::get('example', ExampleController)->middleware(LogHeadersMiddleware::class);
 ```
 
