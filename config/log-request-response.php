@@ -1,17 +1,38 @@
 <?php
 
 return [
-    'enabled' => true,
-    'log_level' => 'info',
+    'log_level' => env('REQUEST_RESPONSE_LOG_LEVEL', 'info'),
 
-    'enable_log_auth' => true,
-    'enable_log_request' => true,
-    'enable_log_response' => true,
-    'enable_log_header' => true,
-    'enable_log_url' => true,
-    'enable_log_method' => true,
-    'enable_log_ip' => true,
-    'enable_log_duration' => true,
+    'log_request_response' => [
+        'enabled' => env('LOG_REQUEST_RESPONSE', true),
+        'title' => env('LOG_REQUEST_RESPONSE_TITLE', 'Request Response'),
+        'log_auth_user' => env('LOG_AUTH_USER', true),
+        'log_request' => env('LOG_REQUEST', true),
+        'log_response' => env('LOG_RESPONSE', true),
+        'log_headers' => env('LOG_HEADERS', true),
+        'log_url' => env('LOG_URL', true),
+        'log_method' => env('LOG_METHOD', true),
+        'log_ip' => env('LOG_IP', true),
+        'log_duration' => env('LOG_DURATION', true),
+        'log_start_time' => env('LOG_START_TIME', true),
+        'log_end_time' => env('LOG_END_TIME', true),
+    ],
+
+    'log_request' => [
+        'enabled' => env('LOG_REQUEST', true),
+        'title' => env('LOG_REQUEST_TITLE', 'Request'),
+        'log_auth_user' => env('LOG_AUTH_USER', true),
+    ],
+
+    'log_response' => [
+        'enabled' => env('LOG_RESPONSE', true),
+        'title' => env('LOG_RESPONSE_TITLE', 'Response'),
+    ],
+
+    'log_headers' => [
+        'enabled' => env('LOG_HEADERS', true),
+        'title' => env('LOG_HEADERS_TITLE', 'Headers'),
+    ],
 
     'columns' => [
         'request' => [
@@ -25,7 +46,7 @@ return [
     ],
 
     'urls' => [
-        'only' => [],
-        'except' => [],
+        'only' => ['*'],
+        'except' => ['*'],
     ]
 ];

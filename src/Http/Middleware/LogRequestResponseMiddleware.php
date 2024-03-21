@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
-
 class LogRequestResponseMiddleware
 {
     public function handle(Request $request, Closure $next)
