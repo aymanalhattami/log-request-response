@@ -20,12 +20,12 @@ composer require aymanalhattami/log-request-response
 use Illuminate\Support\Facades\Route;
 use AymanAlhattami\LogRequestResponse\Http\Middleware\LogRequestResponseMiddleware;
 
-# to all routes
+# Log all routes
 Route::middleware(LogHeadersMiddleware::class)->group(function() {
     // routes
 });
 
-# to single route
+# Log single route
 Route::get('example', ExampleController)->middleware(LogRequestResponseMiddleware::class);
 ```
 
