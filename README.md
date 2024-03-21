@@ -1,9 +1,9 @@
-# Very short description of the package
+# Log Request and Response 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/aymanalhattami/log-request-response.svg?style=flat-square)](https://packagist.org/packages/aymanalhattami/log-request-response)
 [![Total Downloads](https://img.shields.io/packagist/dt/aymanalhattami/log-request-response.svg?style=flat-square)](https://packagist.org/packages/aymanalhattami/log-request-response)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+Log Request, response, headers, method, ip, duration between request and response, request start time, request end time
 
 ## Installation
 
@@ -14,9 +14,64 @@ composer require aymanalhattami/log-request-response
 ```
 
 ## Usage
+### Log request and response
 
 ```php
-// Usage description here
+use Illuminate\Support\Facades\Route;
+use AymanAlhattami\LogRequestResponse\Http\Middleware\LogRequestResponseMiddleware;
+
+# to all routes
+Route::middleware(LogHeadersMiddleware::class)->group(function() {
+    // routes
+});
+
+# to single route
+Route::get('example', ExampleController)->middleware(LogRequestResponseMiddleware::class);
+```
+
+### Log request
+
+```php
+use Illuminate\Support\Facades\Route;
+use AymanAlhattami\LogRequestResponse\Http\Middleware\LogRequestMiddleware;
+
+# to all routes
+Route::middleware(LogRequestMiddleware::class)->group(function() {
+    // routes
+});
+
+# to single route
+Route::get('example', ExampleController)->middleware(LogRequestMiddleware::class);
+```
+
+### Log response
+
+```php
+use Illuminate\Support\Facades\Route;
+use AymanAlhattami\LogRequestResponse\Http\Middleware\LogResponseMiddleware;
+
+# to all routes
+Route::middleware(LogResponseMiddleware::class)->group(function() {
+    // routes
+});
+
+# to single route
+Route::get('example', ExampleController)->middleware(LogResponseMiddleware::class);
+```
+
+### Log headers
+
+```php
+use Illuminate\Support\Facades\Route;
+use AymanAlhattami\LogRequestResponse\Http\Middleware\LogHeadersMiddleware;
+
+# to all routes
+Route::middleware(LogHeadersMiddleware::class)->group(function() {
+    // routes
+});
+
+# to single route
+Route::get('example', ExampleController)->middleware(LogHeadersMiddleware::class);
 ```
 
 ### Testing
