@@ -16,10 +16,10 @@ class LogResponseMiddleware
 
     public function terminate($request, $response)
     {
-        $this->log($response);
+        $this->logResponse($response);
     }
 
-    protected function log($response)
+    protected function logResponse($response)
     {
         Log::info('Response', [
             "response" => $this->getResponse($response),
