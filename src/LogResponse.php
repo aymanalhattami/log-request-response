@@ -34,10 +34,15 @@ class LogResponse
 
     public function getData(): array
     {
-        return [
-            'request_id' => $this->request->header('X-Request-Id'),
+        $data = [
             "response" => $this->getResponse($this->response),
         ];
+
+        if($this->request->headers->has('X-Request-Id')) {
+            $data['request_id'] = $this->request->header('X-Request-Id');
+        }
+
+        return $data;
     }
 
     public function log(): void

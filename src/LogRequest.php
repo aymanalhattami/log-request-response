@@ -43,14 +43,19 @@ class LogRequest
 
     public function getData(): array
     {
-        return [
-            'request_id' => $this->request->header('X-Request-Id'),
+        $data = [
             "request" => Arr::except($this->request->all(), ['password', 'password_confirmation']),
             "headers" => $this->getHeaders(),
             'url' => $this->getUrl(),
             "ip" => $this->getIp(),
             "method" => $this->getMethod(),
         ];
+
+        if($this->request->headers->has('X-Request-Id')) {
+            $data['request_id'] = $this->request->header('X-Request-Id');
+        }
+
+        return $data;
     }
 
     public function log(): void

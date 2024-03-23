@@ -4,3 +4,4 @@
 - [x] test log request and response when there is an exception
 - [ ] add more details about the benefit of logging request and response
 - [ ] describe config file
+- [ ] add link to log levels available in laravel that can be used in this package
