@@ -18,14 +18,19 @@ class LogHeaders
         return new static($request);
     }
 
+    private function getData(): array
+    {
+        return [
+            "headers" => $this->request->headers->all(),
+        ];
+    }
+
     public function log(): void
     {
         if(config('log-request-response.log_headers.enabled')) {
             $logLevel = config('log-request-response.log_level');
 
-            Log::{$logLevel}(config('log-request-response.log_headers.title'), [
-                "headers" => $this->request->headers->all(),
-            ]);
+            Log::{$logLevel}(config('log-request-response.log_headers.title'), $this->getData());
         }
     }
 }

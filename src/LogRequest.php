@@ -21,22 +21,6 @@ class LogRequest
         return new static($request);
     }
 
-    public function log(): void
-    {
-        if(config('log-request-response.log_request.enabled')) {
-            $logLevel = config('log-request-response.log_level');
-
-            Log::{$logLevel}(config('log-request-response.log_request.title'), [
-                'request_id' => $this->request->header('X-Request-Id'),
-                "request" => Arr::except($this->request->all(), ['password', 'password_confirmation']),
-                "headers" => $this->getHeaders(),
-                'url' => $this->getUrl(),
-                "ip" => $this->getIp(),
-                "method" => $this->getMethod(),
-            ]);
-        }
-    }
-
     private function getUrl(): string
     {
         return $this->request->fullUrl();
@@ -55,5 +39,26 @@ class LogRequest
     private function getIp(): string
     {
         return $this->request->getClientIp();
+    }
+
+    public function getData(): array
+    {
+        return [
+            'request_id' => $this->request->header('X-Request-Id'),
+            "request" => Arr::except($this->request->all(), ['password', 'password_confirmation']),
+            "headers" => $this->getHeaders(),
+            'url' => $this->getUrl(),
+            "ip" => $this->getIp(),
+            "method" => $this->getMethod(),
+        ];
+    }
+
+    public function log(): void
+    {
+        if(config('log-request-response.log_request.enabled')) {
+            $logLevel = config('log-request-response.log_level');
+
+            Log::{$logLevel}(config('log-request-response.log_request.title'), $this->getData());
+        }
     }
 }

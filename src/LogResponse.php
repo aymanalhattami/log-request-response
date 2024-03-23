@@ -23,24 +23,29 @@ class LogResponse
         return new static($request, $response);
     }
 
-    public function log(): void
-    {
-        if(config('log-request-response.log_response.enabled')) {
-            $logLevel = config('log-request-response.log_level');
-
-            Log::{$logLevel}(config('log-request-response.log_response.title'), [
-                'request_id' => $this->request->header('X-Request-Id'),
-                "response" => $this->getResponse($this->response),
-            ]);
-        }
-    }
-
     private function getResponse($response)
     {
         if (!Str::of($response->getContent())->isJson()) {
             return $response->getContent();
         } else {
             return json_decode($response->getContent(), JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    public function getData(): array
+    {
+        return [
+            'request_id' => $this->request->header('X-Request-Id'),
+            "response" => $this->getResponse($this->response),
+        ];
+    }
+
+    public function log(): void
+    {
+        if(config('log-request-response.log_response.enabled')) {
+            $logLevel = config('log-request-response.log_level');
+
+            Log::{$logLevel}(config('log-request-response.log_response.title'), $this->getData());
         }
     }
 }
