@@ -12,16 +12,16 @@ class LogRequestMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $this->log($request);
+        $this->logRequest($request);
 
         return $next($request);
     }
 
-    protected function log($request)
+    protected function logRequest($request)
     {
         Log::info('Request', [
             "request" => Arr::except($request->all(), ['password', 'password_confirmation']),
-            "header" => $this->getHeaders($request),
+            "headers" => $this->getHeaders($request),
             'url' => $this->getUrl($request),
             "ip" => $this->getIp($request),
             "method" => $this->getMethod($request),

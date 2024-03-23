@@ -4,9 +4,7 @@ namespace AymanAlhattami\LogRequestResponse\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 
 class LogHeadersMiddleware
@@ -20,8 +18,8 @@ class LogHeadersMiddleware
 
     private function logHeaders(Request $request)
     {
-        Log::info('Header', [
-            "header" => $request->headers->all(),
+        Log::info('Headers', [
+            "headers" => $request->headers->all(),
         ]);
     }
 }

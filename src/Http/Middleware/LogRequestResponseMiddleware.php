@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
 class LogRequestResponseMiddleware
@@ -27,13 +26,11 @@ class LogRequestResponseMiddleware
     {
         Log::info('Request', [
             'request_id' => $request->header('X-Request-Id'),
-            'start_time' => now(),
             "request" => Arr::except($request->all(), ['password', 'password_confirmation']),
-            "header" => $this->getHeaders($request),
+            "headers" => $this->getHeaders($request),
             'url' => $this->getUrl($request),
             "ip" => $this->getIp($request),
             "method" => $this->getMethod($request),
-            "duration" => $this->getDuration($request),
         ]);
     }
 
@@ -49,7 +46,6 @@ class LogRequestResponseMiddleware
         Log::info('Response', [
             'request_id' => $request->header('X-Request-Id'),
             "response" => $this->getResponse($response),
-            'end_time' => now(),
             "duration" => $this->getDuration($request),
         ]);
     }
