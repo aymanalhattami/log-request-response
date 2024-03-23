@@ -13,15 +13,11 @@ return [
         'log_url' => env('LOG_URL', true),
         'log_method' => env('LOG_METHOD', true),
         'log_ip' => env('LOG_IP', true),
-        'log_duration' => env('LOG_DURATION', true),
-        'log_start_time' => env('LOG_START_TIME', true),
-        'log_end_time' => env('LOG_END_TIME', true),
     ],
 
     'log_request' => [
         'enabled' => env('LOG_REQUEST', true),
         'title' => env('LOG_REQUEST_TITLE', 'Request'),
-        'log_auth_user' => env('LOG_AUTH_USER', true),
     ],
 
     'log_response' => [
