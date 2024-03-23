@@ -25,7 +25,7 @@ class LogRequest
     {
         $logLevel = config('log-request-response.log_level');
 
-        Log::${$logLevel}('Request', [
+        Log::{$logLevel}('Request', [
             'request_id' => $this->request->header('X-Request-Id'),
             "request" => Arr::except($this->request->all(), ['password', 'password_confirmation']),
             "headers" => $this->getHeaders(),

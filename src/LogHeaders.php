@@ -22,7 +22,7 @@ class LogHeaders
     {
         $logLevel = config('log-request-response.log_level');
 
-        Log::${$logLevel}('Headers', [
+        Log::{$logLevel}('Headers', [
             "headers" => $this->request->headers->all(),
         ]);
     }
