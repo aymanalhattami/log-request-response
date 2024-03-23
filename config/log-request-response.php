@@ -18,16 +18,19 @@ return [
     'log_request' => [
         'enabled' => env('LOG_REQUEST', true),
         'title' => env('LOG_REQUEST_TITLE', 'Request'),
+        'log_auth_user' => env('LOG_AUTH_USER', true),
     ],
 
     'log_response' => [
         'enabled' => env('LOG_RESPONSE', true),
         'title' => env('LOG_RESPONSE_TITLE', 'Response'),
+        'log_auth_user' => env('LOG_AUTH_USER', true),
     ],
 
     'log_headers' => [
         'enabled' => env('LOG_HEADERS', true),
         'title' => env('LOG_HEADERS_TITLE', 'Headers'),
+        'log_auth_user' => env('LOG_AUTH_USER', true),
     ],
 
     'columns' => [

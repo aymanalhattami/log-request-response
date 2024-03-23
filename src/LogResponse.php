@@ -25,7 +25,9 @@ class LogResponse
 
     public function log(): void
     {
-        Log::info('Response', [
+        $logLevel = config('log-request-response.log_level');
+
+        Log::${$logLevel}('Response', [
             'request_id' => $this->request->header('X-Request-Id'),
             "response" => $this->getResponse($this->response),
         ]);

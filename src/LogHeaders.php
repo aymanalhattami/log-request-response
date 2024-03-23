@@ -20,7 +20,9 @@ class LogHeaders
 
     public function log(): void
     {
-        Log::info('Headers', [
+        $logLevel = config('log-request-response.log_level');
+
+        Log::${$logLevel}('Headers', [
             "headers" => $this->request->headers->all(),
         ]);
     }
