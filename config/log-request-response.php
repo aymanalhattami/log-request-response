@@ -6,23 +6,26 @@ return [
     'log_request' => [
         'enabled' => env('LOG_REQUEST', true),
         'title' => env('LOG_REQUEST_TITLE', 'Request'),
-        'auth_user' => env('LOG_REQUEST_AUTH_USER', true),
-        'request_id' => env('LOG_REQUEST_ID', true),
+        'headers' => env('LOG_HEADERS_WITH_REQUEST', true),
         'url' => env('LOG_REQUEST_URL', true),
         'method' => env('LOG_REQUEST_METHOD', true),
         'ip' => env('LOG_REQUEST_IP', true),
+
+        'auth_user' => env('LOG_AUTH_USER_WITH_REQUEST', true),
+        'request_id' => env('LOG_REQUEST_ID_WITH_REQUEST', true),
     ],
 
     'log_response' => [
         'enabled' => env('LOG_RESPONSE', true),
         'title' => env('LOG_RESPONSE_TITLE', 'Response'),
-        'auth_user' => env('LOG_RESPONSE_AUTH_USER', true),
+        'auth_user' => env('LOG_AUTH_USER_WITH_RESPONSE', true),
+        'request_id' => env('LOG_REQUEST_ID_WITH_RESPONSE', true),
     ],
 
     'log_headers' => [
         'enabled' => env('LOG_HEADERS', true),
         'title' => env('LOG_HEADERS_TITLE', 'Headers'),
-        'auth_user' => env('LOG_HEADERS_AUTH_USER', true),
+        'auth_user' => env('LOG_AUTH_USER_IN_HEADERS', true),
     ],
 
     'columns' => [

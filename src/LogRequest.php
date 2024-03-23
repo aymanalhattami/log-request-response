@@ -63,8 +63,12 @@ class LogRequest
             $data['request_id'] = $this->request->header('X-Request-Id');
         }
 
-        if(config('log-request-response.log_headers.enabled')) {
+        if(config('log-request-response.log_request.headers')) {
             $data["headers"] = $this->getHeaders();
+        }
+
+        if(config('log-request-response.log_request.auth_user')) {
+            $data['auth_user'] = auth()->user();
         }
 
         return $data;

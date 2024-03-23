@@ -20,9 +20,15 @@ class LogHeaders
 
     private function getData(): array
     {
-        return [
+        $data = [
             "headers" => $this->request->headers->all(),
         ];
+
+        if(config('log-request-response.log_headers.auth_user')) {
+            $data['auth_user'] = auth()->user();
+        }
+
+        return $data;
     }
 
     public function log(): void

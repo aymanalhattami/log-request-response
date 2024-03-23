@@ -2,8 +2,6 @@
 
 namespace AymanAlhattami\LogRequestResponse;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -38,8 +36,12 @@ class LogResponse
             "response" => $this->getResponse($this->response),
         ];
 
-        if(config('log-request-response.log_request.request_id') and $this->request->headers->has('X-Request-Id')) {
+        if(config('log-request-response.log_response.request_id') and $this->request->headers->has('X-Request-Id')) {
             $data['request_id'] = $this->request->header('X-Request-Id');
+        }
+
+        if(config('log-request-response.log_response.auth_user')) {
+            $data['auth_user'] = auth()->user();
         }
 
         return $data;
