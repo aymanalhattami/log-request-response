@@ -2,11 +2,11 @@
 
 namespace AymanAlhattami\LogRequestResponse\Http\Middleware;
 
+use AymanAlhattami\LogRequestResponse\LogRequest;
+use AymanAlhattami\LogRequestResponse\LogResponse;
 use Closure;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class LogRequestResponseMiddleware
 {
@@ -16,62 +16,13 @@ class LogRequestResponseMiddleware
 
         $request->headers->set('X-Request-Id', $requestId);
 
-        $this->logRequest($request);
+        LogRequest::make($request)->log();
 
         return $next($request);
     }
 
-    private function logRequest(Request $request)
-    {
-        Log::info('Request', [
-            'request_id' => $request->header('X-Request-Id'),
-            "request" => Arr::except($request->all(), ['password', 'password_confirmation']),
-            "headers" => $this->getHeaders($request),
-            'url' => $this->getUrl($request),
-            "ip" => $this->getIp($request),
-            "method" => $this->getMethod($request),
-        ]);
-    }
-
     public function terminate($request, $response)
     {
-        $this->logResponse($request, $response);
-    }
-
-    protected function logResponse($request, $response)
-    {
-        Log::info('Response', [
-            'request_id' => $request->header('X-Request-Id'),
-            "response" => $this->getResponse($response),
-        ]);
-    }
-
-    private function getUrl($request): string
-    {
-        return $request->fullUrl();
-    }
-
-    private function getMethod($request): string
-    {
-        return Str::of($request->getMethod())->upper();
-    }
-
-    private function getHeaders($request): array
-    {
-        return $request->headers->all();
-    }
-
-    private function getIp($request): string
-    {
-        return $request->getClientIp();
-    }
-
-    private function getResponse($response)
-    {
-        if (!Str::of($response->getContent())->isJson()) {
-            return $response->getContent();
-        } else {
-            return json_decode($response->getContent(), JSON_UNESCAPED_UNICODE);
-        }
+        LogResponse::make($request, $response)->log();
     }
 }

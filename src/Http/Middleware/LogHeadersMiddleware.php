@@ -2,24 +2,17 @@
 
 namespace AymanAlhattami\LogRequestResponse\Http\Middleware;
 
+use AymanAlhattami\LogRequestResponse\LogHeaders;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
 
 class LogHeadersMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $this->logHeaders($request);
+        LogHeaders::make($request)->log();
 
         return $next($request);
-    }
-
-    private function logHeaders(Request $request)
-    {
-        Log::info('Headers', [
-            "headers" => $request->headers->all(),
-        ]);
     }
 }

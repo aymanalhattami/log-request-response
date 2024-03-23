@@ -1,4 +1,4 @@
-- add description to composer.json
-- add keywords to composer.json
-- add phpunit test
-- test log request and response when there is an exception
+- [x] add description to composer.json
+- [x] add keywords to composer.json
+- [ ] add phpunit test
+- [x] test log request and response when there is an exception

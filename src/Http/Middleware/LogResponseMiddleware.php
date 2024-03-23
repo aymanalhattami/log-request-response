@@ -2,6 +2,7 @@
 
 namespace AymanAlhattami\LogRequestResponse\Http\Middleware;
 
+use AymanAlhattami\LogRequestResponse\LogResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -16,22 +17,7 @@ class LogResponseMiddleware
 
     public function terminate($request, $response)
     {
-        $this->logResponse($response);
+        LogResponse::make($request, $response)->log();
     }
 
-    protected function logResponse($response)
-    {
-        Log::info('Response', [
-            "response" => $this->getResponse($response),
-        ]);
-    }
-
-    private function getResponse($response)
-    {
-        if (!Str::of($response->getContent())->isJson()) {
-            return $response->getContent();
-        } else {
-            return json_decode($response->getContent(), JSON_UNESCAPED_UNICODE);
-        }
-    }
 }
