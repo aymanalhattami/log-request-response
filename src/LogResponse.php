@@ -9,8 +9,8 @@ use Illuminate\Support\Str;
 
 class LogResponse
 {
-    public Request $request;
-    public Response $response;
+    public $request;
+    public $response;
 
     public function __construct($request, $response)
     {
