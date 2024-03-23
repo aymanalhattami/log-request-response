@@ -7,6 +7,7 @@ return [
         'enabled' => env('LOG_REQUEST', true),
         'title' => env('LOG_REQUEST_TITLE', 'Request'),
         'auth_user' => env('LOG_REQUEST_AUTH_USER', true),
+        'request_id' => env('LOG_REQUEST_ID', true),
         'url' => env('LOG_REQUEST_URL', true),
         'method' => env('LOG_REQUEST_METHOD', true),
         'ip' => env('LOG_REQUEST_IP', true),

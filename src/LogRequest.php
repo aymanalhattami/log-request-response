@@ -45,14 +45,26 @@ class LogRequest
     {
         $data = [
             "request" => Arr::except($this->request->all(), ['password', 'password_confirmation']),
-            "headers" => $this->getHeaders(),
-            'url' => $this->getUrl(),
-            "ip" => $this->getIp(),
-            "method" => $this->getMethod(),
         ];
 
-        if($this->request->headers->has('X-Request-Id')) {
+        if(config('log-request-response.log_request.method')) {
+            $data['method'] = $this->getMethod();
+        }
+
+        if(config('log-request-response.log_request.url')) {
+            $data['url'] = $this->getUrl();
+        }
+
+        if(config('log-request-response.log_request.ip')) {
+            $data['ip'] = $this->getIp();
+        }
+
+        if(config('log-request-response.log_request.request_id') and $this->request->headers->has('X-Request-Id')) {
             $data['request_id'] = $this->request->header('X-Request-Id');
+        }
+
+        if(config('log-request-response.log_headers.enabled')) {
+            $data["headers"] = $this->getHeaders();
         }
 
         return $data;
