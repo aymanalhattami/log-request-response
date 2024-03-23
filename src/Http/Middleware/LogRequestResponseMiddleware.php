@@ -15,7 +15,6 @@ class LogRequestResponseMiddleware
         $requestId = Str::uuid()->toString();
 
         $request->headers->set('X-Request-Id', $requestId);
-        $request->headers->set('X-Start-Time', microtime(true));
 
         $this->logRequest($request);
 
@@ -36,8 +35,6 @@ class LogRequestResponseMiddleware
 
     public function terminate($request, $response)
     {
-        $request->headers->set('X-End-Time', microtime(true));
-
         $this->logResponse($request, $response);
     }
 
@@ -46,13 +43,7 @@ class LogRequestResponseMiddleware
         Log::info('Response', [
             'request_id' => $request->header('X-Request-Id'),
             "response" => $this->getResponse($response),
-            "duration" => $this->getDuration($request),
         ]);
-    }
-
-    private function getDuration($request): string
-    {
-        return ($request->header('X-End-Time') - $request->header('X-Start-Time')) . 'ms';
     }
 
     private function getUrl($request): string
