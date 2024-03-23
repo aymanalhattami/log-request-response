@@ -3,7 +3,15 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/aymanalhattami/log-request-response.svg?style=flat-square)](https://packagist.org/packages/aymanalhattami/log-request-response)
 [![Total Downloads](https://img.shields.io/packagist/dt/aymanalhattami/log-request-response.svg?style=flat-square)](https://packagist.org/packages/aymanalhattami/log-request-response)
 
-Log Request, response, headers, method, ip, duration between request and response, request start time, request end time
+
+Log request, response, headers, method, IP address and URL
+
+> **_NOTE:_**
+Logs can be invaluable for debugging issues. By reviewing the request and response data, developers can trace what data was sent and received, and identify where things may have gone wrong
+
+
+* Sensitive information such as password can be excluded from logs
+* Useful for logging APIs requests and responses
 
 ## Installation
 
@@ -22,7 +30,7 @@ use AymanAlhattami\LogRequestResponse\Http\Middleware\LogRequestResponseMiddlewa
 use App\Http\Controllers\ExampleController;
 
 # Log all routes
-Route::middleware(LogHeadersMiddleware::class)->group(function() {
+Route::middleware(LogRequestResponseMiddleware::class)->group(function() {
     // routes
 });
 
