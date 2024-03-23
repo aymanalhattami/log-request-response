@@ -2,3 +2,5 @@
 - [x] add keywords to composer.json
 - [ ] add phpunit test
 - [x] test log request and response when there is an exception
+- [ ] add more details about the benefit of logging request and response
+- [ ] describe config file

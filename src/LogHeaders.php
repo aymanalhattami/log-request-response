@@ -20,10 +20,12 @@ class LogHeaders
 
     public function log(): void
     {
-        $logLevel = config('log-request-response.log_level');
+        if(config('log-request-response.log_headers.enabled')) {
+            $logLevel = config('log-request-response.log_level');
 
-        Log::{$logLevel}('Headers', [
-            "headers" => $this->request->headers->all(),
-        ]);
+            Log::{$logLevel}(config('log-request-response.log_headers.title'), [
+                "headers" => $this->request->headers->all(),
+            ]);
+        }
     }
 }

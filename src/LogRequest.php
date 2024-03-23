@@ -23,16 +23,18 @@ class LogRequest
 
     public function log(): void
     {
-        $logLevel = config('log-request-response.log_level');
+        if(config('log-request-response.log_request.enabled')) {
+            $logLevel = config('log-request-response.log_level');
 
-        Log::{$logLevel}('Request', [
-            'request_id' => $this->request->header('X-Request-Id'),
-            "request" => Arr::except($this->request->all(), ['password', 'password_confirmation']),
-            "headers" => $this->getHeaders(),
-            'url' => $this->getUrl(),
-            "ip" => $this->getIp(),
-            "method" => $this->getMethod(),
-        ]);
+            Log::{$logLevel}(config('log-request-response.log_request.title'), [
+                'request_id' => $this->request->header('X-Request-Id'),
+                "request" => Arr::except($this->request->all(), ['password', 'password_confirmation']),
+                "headers" => $this->getHeaders(),
+                'url' => $this->getUrl(),
+                "ip" => $this->getIp(),
+                "method" => $this->getMethod(),
+            ]);
+        }
     }
 
     private function getUrl(): string

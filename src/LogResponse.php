@@ -25,12 +25,14 @@ class LogResponse
 
     public function log(): void
     {
-        $logLevel = config('log-request-response.log_level');
+        if(config('log-request-response.log_response.enabled')) {
+            $logLevel = config('log-request-response.log_level');
 
-        Log::{$logLevel}('Response', [
-            'request_id' => $this->request->header('X-Request-Id'),
-            "response" => $this->getResponse($this->response),
-        ]);
+            Log::{$logLevel}(config('log-request-response.log_response.title'), [
+                'request_id' => $this->request->header('X-Request-Id'),
+                "response" => $this->getResponse($this->response),
+            ]);
+        }
     }
 
     private function getResponse($response)
