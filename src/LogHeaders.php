@@ -24,7 +24,7 @@ class LogHeaders
             "headers" => $this->request->headers->all(),
         ];
 
-        if(config('log-request-response.log_headers.auth_user')) {
+        if(config('log-request-response.headers.auth_user')) {
             $data['auth_user'] = auth()->user();
         }
 
@@ -33,10 +33,10 @@ class LogHeaders
 
     public function log(): void
     {
-        if(config('log-request-response.log_headers.enabled')) {
+        if(config('log-request-response.headers.enabled')) {
             $logLevel = config('log-request-response.log_level');
 
-            Log::{$logLevel}(config('log-request-response.log_headers.title'), $this->getData());
+            Log::{$logLevel}(config('log-request-response.headers.title'), $this->getData());
         }
     }
 }

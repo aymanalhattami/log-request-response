@@ -47,27 +47,27 @@ class LogRequest
             "request" => Arr::except($this->request->all(), ['password', 'password_confirmation']),
         ];
 
-        if(config('log-request-response.log_request.method')) {
+        if(config('log-request-response.request.method')) {
             $data['method'] = $this->getMethod();
         }
 
-        if(config('log-request-response.log_request.url')) {
+        if(config('log-request-response.request.url')) {
             $data['url'] = $this->getUrl();
         }
 
-        if(config('log-request-response.log_request.ip')) {
+        if(config('log-request-response.request.ip')) {
             $data['ip'] = $this->getIp();
         }
 
-        if(config('log-request-response.log_request.request_id') and $this->request->headers->has('X-Request-Id')) {
+        if(config('log-request-response.request.request_id') and $this->request->headers->has('X-Request-Id')) {
             $data['request_id'] = $this->request->header('X-Request-Id');
         }
 
-        if(config('log-request-response.log_request.headers')) {
+        if(config('log-request-response.request.headers')) {
             $data["headers"] = $this->getHeaders();
         }
 
-        if(config('log-request-response.log_request.auth_user')) {
+        if(config('log-request-response.request.auth_user')) {
             $data['auth_user'] = auth()->user();
         }
 
@@ -76,10 +76,10 @@ class LogRequest
 
     public function log(): void
     {
-        if(config('log-request-response.log_request.enabled')) {
+        if(config('log-request-response.request.enabled')) {
             $logLevel = config('log-request-response.log_level');
 
-            Log::{$logLevel}(config('log-request-response.log_request.title'), $this->getData());
+            Log::{$logLevel}(config('log-request-response.request.title'), $this->getData());
         }
     }
 }

@@ -36,11 +36,11 @@ class LogResponse
             "response" => $this->getResponse($this->response),
         ];
 
-        if(config('log-request-response.log_response.request_id') and $this->request->headers->has('X-Request-Id')) {
+        if(config('log-request-response.response.request_id') and $this->request->headers->has('X-Request-Id')) {
             $data['request_id'] = $this->request->header('X-Request-Id');
         }
 
-        if(config('log-request-response.log_response.auth_user')) {
+        if(config('log-request-response.response.auth_user')) {
             $data['auth_user'] = auth()->user();
         }
 
@@ -49,10 +49,10 @@ class LogResponse
 
     public function log(): void
     {
-        if(config('log-request-response.log_response.enabled')) {
+        if(config('log-request-response.response.enabled')) {
             $logLevel = config('log-request-response.log_level');
 
-            Log::{$logLevel}(config('log-request-response.log_response.title'), $this->getData());
+            Log::{$logLevel}(config('log-request-response.response.title'), $this->getData());
         }
     }
 }
