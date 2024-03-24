@@ -68,7 +68,9 @@ class LogRequest
         }
 
         if(config('log-request-response.request.auth_user')) {
-            $data['auth_user'] = auth()->user();
+            $userColumn = config('log-request-response.auth_user_column');
+
+            $data['auth_user'] = auth()->user()->{$userColumn} ?? null;
         }
 
         return $data;

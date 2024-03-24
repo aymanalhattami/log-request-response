@@ -71,4 +71,7 @@ return [
         // Indicates whether information about the authenticated user should be included in the headers log.
         'auth_user' => env('LOG_AUTH_USER_IN_HEADERS', true),
     ],
+
+    // which data of authenticated user to be logged. Default: 'email'.
+    'auth_user_column' => env('LOG_AUTH_USER_COLUMN', 'email'),
 ];

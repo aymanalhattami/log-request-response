@@ -5,3 +5,5 @@
 - [ ] add more details about the benefit of logging request and response
 - [ ] describe config file
 - [ ] add link to log levels available in laravel that can be used in this package
+- [ ] log request start time and end time "till returning response"
+- [ ] log time taken by request till response in millisecond
