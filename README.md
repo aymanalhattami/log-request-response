@@ -9,9 +9,13 @@ Log request, response, headers, method, IP address and URL
 > **_NOTE:_**
 Logs can be invaluable for debugging issues. By reviewing the request and response data, developers can trace what data was sent and received, and identify where things may have gone wrong
 
-
-* Sensitive information such as password can be excluded from logs
 * Useful for logging APIs requests and responses
+* Enable/disable logging request
+* Enable/disable logging response
+* Enable/disable logging headers
+* You can specify which request data should be logged
+* You can specify which response data should be logged
+* You can specify which URLs should be logged
 
 ## Installation
 
