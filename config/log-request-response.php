@@ -74,4 +74,7 @@ return [
 
     // which data of authenticated user to be logged. Default: 'email'.
     'auth_user_column' => env('LOG_AUTH_USER_COLUMN', 'email'),
+
+    // which guard of authenticated user to be logged. Default: 'api'.
+    'auth_user_guard' => env('LOG_AUTH_USER_GUARD', 'api'),
 ];

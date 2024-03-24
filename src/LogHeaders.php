@@ -27,7 +27,7 @@ class LogHeaders
         if(config('log-request-response.headers.auth_user')) {
             $userColumn = config('log-request-response.auth_user_column');
 
-            $data['auth_user'] = auth()->user()->{$userColumn} ?? null;
+            $data['auth_user'] = auth(config('log-request-response.auth_user_guard'))->user()->{$userColumn} ?? null;
         }
 
         return $data;
