@@ -43,6 +43,10 @@ class LogRequest
 
     public function getData(): array
     {
+        if(!$this->checkUrlConfig()) {
+            return [];
+        }
+
         if (count(config('log-request-response.request.data.only')) == 0 and count(config('log-request-response.request.data.except')) == 0) {
             $data["request"] = $this->request->all();
         } elseif (count(config('log-request-response.request.data.only')) > 0) {
@@ -89,5 +93,17 @@ class LogRequest
 
             Log::{$logLevel}(config('log-request-response.request.title'), $this->getData());
         }
+    }
+
+    private function checkUrlConfig(): bool
+    {
+        $onlyUrls = config('log-request-response.request.urls.only');
+        $exceptUrls = config('log-request-response.request.urls.except');
+        $currentPath = $this->request->path();
+
+        // If 'only' is empty and 'except' is empty, or the current path is in 'only' or not in 'except', allow it.
+        return (empty($onlyUrls) && empty($exceptUrls)) ||
+            in_array($currentPath, $onlyUrls) ||
+            !in_array($currentPath, $exceptUrls);
     }
 }

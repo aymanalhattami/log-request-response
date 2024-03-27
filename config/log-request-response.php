@@ -38,8 +38,8 @@ return [
          * if 'only' is not empty, but 'except' is empty, then only the data specified in 'only' will be logged.
          */
         'data' => [
-            'only' => [], // Data to be included exclusively. empty array means all data will be logged.
-            'except' => ['password', 'password_confirmation'], // Data to be excluded. empty array means all data will be logged.
+            'only' => [],
+            'except' => ['password', 'password_confirmation'],
         ],
 
         /**
@@ -52,8 +52,8 @@ return [
          * if 'only' is not empty, but 'except' is empty, then only the URLs specified in 'only' will be logged.
          */
         'urls' => [
-            'only' => [], // URLs to be included exclusively.
-            'except' => [], // URLs to be excluded.
+            'only' => ['api/login'],
+            'except' => [],
         ]
     ],
 
