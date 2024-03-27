@@ -52,7 +52,7 @@ return [
          * if 'only' is not empty, but 'except' is empty, then only the URLs specified in 'only' will be logged.
          */
         'urls' => [
-            'only' => ['api/login'],
+            'only' => [],
             'except' => [],
         ]
     ],
