@@ -55,8 +55,6 @@ class LogRequest
             $data["request"] = [];
         }
 
-        $data = ["request" => $requestData,];
-
         if(config('log-request-response.request.method')) {
             $data['method'] = $this->getMethod();
         }
