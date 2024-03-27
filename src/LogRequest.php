@@ -43,8 +43,6 @@ class LogRequest
 
     public function getData(): array
     {
-        $requestData = [];
-
         if (count(config('log-request-response.request.data.only')) == 0 and count(config('log-request-response.request.data.except')) == 0) {
             $data["request"] = $this->request->all();
         } elseif (count(config('log-request-response.request.data.only')) > 0) {
