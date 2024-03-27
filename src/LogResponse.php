@@ -2,6 +2,7 @@
 
 namespace AymanAlhattami\LogRequestResponse;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -21,20 +22,26 @@ class LogResponse
         return new static($request, $response);
     }
 
-    private function getResponse($response)
+    private function getResponse()
     {
-        if (!Str::of($response->getContent())->isJson()) {
-            return $response->getContent();
+        if (!Str::of($this->response->getContent())->isJson()) {
+            return $this->response->getContent();
         } else {
-            return json_decode($response->getContent(), JSON_UNESCAPED_UNICODE);
+            return json_decode($this->response->getContent(), JSON_UNESCAPED_UNICODE);
         }
     }
 
     public function getData(): array
     {
-        $data = [
-            "response" => $this->getResponse($this->response),
-        ];
+        if (count(config('log-request-response.response.data.only')) == 0 and count(config('log-request-response.response.data.except')) == 0) {
+            $data["response"] = $this->getResponse();
+        } elseif (count(config('log-request-response.response.data.only')) > 0) {
+            $data["response"] = Arr::only($this->getResponse(), config('log-request-response.response.data.only'));
+        } elseif (count(config('log-request-response.response.data.except')) > 0) {
+            $data['response'] = Arr::except($this->getResponse(), config('log-request-response.response.data.except'));
+        } else {
+            $data["response"] = [];
+        }
 
         if(config('log-request-response.response.request_id') and $this->request->headers->has('X-Request-Id')) {
             $data['request_id'] = $this->request->header('X-Request-Id');
