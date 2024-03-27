@@ -30,14 +30,14 @@ return [
 
         // Specifying which request data should be logged.
         'data' => [
-            'only' => ['*'], // Data to be included exclusively.
-            'except' => [] // Data to be excluded.
+            'only' => [], // Data to be included exclusively. empty array means all data will be logged.
+            'except' => ['password', 'password_confirmation'], // Data to be excluded. empty array means all data will be logged.
         ],
 
         // Specifying which URLs should be logged.
         'urls' => [
-            'only' => ['*'], // URLs to be included exclusively.
-            'except' => [] // URLs to be excluded.
+            'only' => [], // URLs to be included exclusively.
+            'except' => [], // URLs to be excluded.
         ]
     ],
 
@@ -56,8 +56,8 @@ return [
 
         // Specifying which response data should be logged.
         'data' => [
-            'only' => ['*'], // Data to be included exclusively.
-            'except' => [] // Data to be excluded.
+            'only' => [], // Data to be included exclusively.
+            'except' => [], // Data to be excluded.
         ]
     ],
 

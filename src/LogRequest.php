@@ -43,9 +43,19 @@ class LogRequest
 
     public function getData(): array
     {
-        $data = [
-            "request" => Arr::except($this->request->all(), ['password', 'password_confirmation']),
-        ];
+        $requestData = [];
+
+        if (count(config('log-request-response.request.data.only')) == 0 and count(config('log-request-response.request.data.only')) == 0) {
+            $data["request"] = $this->request->all();
+        } elseif (count(config('log-request-response.request.data.only')) > 0) {
+            $data["request"] = Arr::only($this->request->all(), config('log-request-response.request.data.only'));
+        } elseif (count(config('log-request-response.request.data.except')) > 0) {
+            $data['request'] = Arr::except($this->request->all(), config('log-request-response.request.data.except'));
+        } else {
+            $data["request"] = [];
+        }
+
+        $data = ["request" => $requestData,];
 
         if(config('log-request-response.request.method')) {
             $data['method'] = $this->getMethod();
