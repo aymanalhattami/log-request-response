@@ -28,13 +28,29 @@ return [
         // Specifies whether a unique identifier for the request should be logged.
         'request_id' => env('LOG_REQUEST_ID_WITH_REQUEST', true),
 
-        // Specifying which request data should be logged.
+        /**
+         * Specifying which request data should be logged.
+         * if 'only' has data, then 'except' will be ignored.
+         * if 'except' has data, then 'only' will be ignored.
+         * if both 'only' and 'except' are empty, then all data will be logged.
+         * if both 'only' and 'except' are not empty, then only the data specified in 'only' will be logged.
+         * if 'only' is empty, but 'except' is not empty, then all data except the data specified in 'except' will be logged.
+         * if 'only' is not empty, but 'except' is empty, then only the data specified in 'only' will be logged.
+         */
         'data' => [
             'only' => [], // Data to be included exclusively. empty array means all data will be logged.
             'except' => ['password', 'password_confirmation'], // Data to be excluded. empty array means all data will be logged.
         ],
 
-        // Specifying which URLs should be logged.
+        /**
+         * Specifying which URLs should be logged.
+         * if 'only' has data, then 'except' will be ignored.
+         * if 'except' has data, then 'only' will be ignored.
+         * if both 'only' and 'except' are empty, then all URLs will be logged.
+         * if both 'only' and 'except' are not empty, then only the URLs specified in 'only' will be logged.
+         * if 'only' is empty, but 'except' is not empty, then all URLs except the URLs specified in 'except' will be logged.
+         * if 'only' is not empty, but 'except' is empty, then only the URLs specified in 'only' will be logged.
+         */
         'urls' => [
             'only' => [], // URLs to be included exclusively.
             'except' => [], // URLs to be excluded.
@@ -54,7 +70,15 @@ return [
         // Specifies whether the request's unique identifier should be logged with the response.
         'request_id' => env('LOG_REQUEST_ID_WITH_RESPONSE', true),
 
-        // Specifying which response data should be logged.
+        /**
+         * Specifying which response data should be logged.
+         * if 'only' has data, then 'except' will be ignored.
+         * if 'except' has data, then 'only' will be ignored.
+         * if both 'only' and 'except' are empty, then all data will be logged.
+         * if both 'only' and 'except' are not empty, then only the data specified in 'only' will be logged.
+         * if 'only' is empty, but 'except' is not empty, then all data except the data specified in 'except' will be logged.
+         * if 'only' is not empty, but 'except' is empty, then only the data specified in 'only' will be logged.
+         */
         'data' => [
             'only' => [], // Data to be included exclusively.
             'except' => [], // Data to be excluded.
