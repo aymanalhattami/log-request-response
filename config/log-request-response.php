@@ -41,20 +41,6 @@ return [
             'only' => [],
             'except' => ['password', 'password_confirmation'],
         ],
-
-        /**
-         * Specifying which URLs should be logged.
-         * if 'only' has data, then 'except' will be ignored.
-         * if 'except' has data, then 'only' will be ignored.
-         * if both 'only' and 'except' are empty, then all URLs will be logged.
-         * if both 'only' and 'except' are not empty, then only the URLs specified in 'only' will be logged.
-         * if 'only' is empty, but 'except' is not empty, then all URLs except the URLs specified in 'except' will be logged.
-         * if 'only' is not empty, but 'except' is empty, then only the URLs specified in 'only' will be logged.
-         */
-        'urls' => [
-            'only' => [],
-            'except' => [],
-        ]
     ],
 
     'response' => [
@@ -94,6 +80,20 @@ return [
 
         /* Indicates whether information about the authenticated user should be included in the headers log. */
         'auth_user' => env('LOG_AUTH_USER_IN_HEADERS', true),
+    ],
+
+    /**
+     * Specifying which URLs should be logged.
+     * if 'only' has data, then 'except' will be ignored.
+     * if 'except' has data, then 'only' will be ignored.
+     * if both 'only' and 'except' are empty, then all URLs will be logged.
+     * if both 'only' and 'except' are not empty, then only the URLs specified in 'only' will be logged.
+     * if 'only' is empty, but 'except' is not empty, then all URLs except the URLs specified in 'except' will be logged.
+     * if 'only' is not empty, but 'except' is empty, then only the URLs specified in 'only' will be logged.
+     */
+    'urls' => [
+        'only' => [],
+        'except' => [],
     ],
 
     /* which data of authenticated user to be logged. Default: 'email'. */

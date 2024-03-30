@@ -97,8 +97,8 @@ class LogRequest
 
     private function checkUrlConfig(): bool
     {
-        $onlyUrls = config('log-request-response.request.urls.only');
-        $exceptUrls = config('log-request-response.request.urls.except');
+        $onlyUrls = config('log-request-response.urls.only');
+        $exceptUrls = config('log-request-response.urls.except');
         $currentPath = $this->request->path();
 
         // If 'only' is empty and 'except' is empty, or the current path is in 'only' or not in 'except', allow it.
