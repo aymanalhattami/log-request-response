@@ -92,8 +92,8 @@ return [
      * if 'only' is not empty, but 'except' is empty, then only the URLs specified in 'only' will be logged.
      */
     'urls' => [
-        'only' => [],
-        'except' => [],
+        'only' => [], // ['api/login',]
+        'except' => [], // ['api/register',]
     ],
 
     /* which data of authenticated user to be logged. Default: 'email'. */
