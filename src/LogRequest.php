@@ -100,10 +100,36 @@ class LogRequest
         $onlyUrls = config('log-request-response.urls.only');
         $exceptUrls = config('log-request-response.urls.except');
         $currentPath = $this->request->path();
+        $result = false;
 
-        // If 'only' is empty and 'except' is empty, or the current path is in 'only' or not in 'except', allow it.
-        return (empty($onlyUrls) && empty($exceptUrls)) ||
-            in_array($currentPath, $onlyUrls) ||
-            !in_array($currentPath, $exceptUrls);
+        if (empty($onlyUrls) && empty($exceptUrls)) {
+            $result = true;
+        } elseif (filled($onlyUrls)) {
+            if(in_array($currentPath, $onlyUrls)) {
+                $result = true;
+            } else {
+                foreach ($onlyUrls as $onlyUrl) {
+                    $onlyUrl = Str::of($onlyUrl)->trim('/');
+                    if (Str::endsWith($onlyUrl, '*') and Str::of($currentPath)->contains(Str::of($onlyUrl)->trim('*'))) {
+                        $result = true;
+                        break;
+                    }
+                }
+            }
+        } elseif (filled($exceptUrls)) {
+            if(in_array($currentPath, $exceptUrls)) {
+                $result = false;
+            }
+        } else {
+            foreach ($exceptUrls as $exceptUrl) {
+                $exceptUrl = Str::of($exceptUrl)->trim('/');
+                if (Str::endsWith($exceptUrl, '*') and Str::of($currentPath)->contains(Str::of($exceptUrl)->trim('*'))) {
+                    $result = false;
+                    break;
+                }
+            }
+        }
+
+        return $result;
     }
 }
