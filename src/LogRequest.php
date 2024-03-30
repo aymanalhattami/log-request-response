@@ -43,10 +43,6 @@ class LogRequest
 
     public function getData(): array
     {
-//        if(!$this->checkUrlConfig()) {
-//            return [];
-//        }
-
         if (count(config('log-request-response.request.data.only')) == 0 and count(config('log-request-response.request.data.except')) == 0) {
             $data["request"] = $this->request->all();
         } elseif (count(config('log-request-response.request.data.only')) > 0) {
@@ -115,6 +111,10 @@ class LogRequest
                         break;
                     }
                 }
+
+                if(is_null($result)) {
+                    $result = false;
+                }
             }
         } elseif (filled($exceptUrls)) {
             if(in_array($currentPath, $exceptUrls)) {
@@ -127,9 +127,14 @@ class LogRequest
                         break;
                     }
                 }
+
+                if(is_null($result)) {
+                    $result = true;
+                }
             }
         }
 
         return $result;
     }
+
 }
