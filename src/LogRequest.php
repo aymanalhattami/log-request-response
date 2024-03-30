@@ -43,9 +43,9 @@ class LogRequest
 
     public function getData(): array
     {
-        if(!$this->checkUrlConfig()) {
-            return [];
-        }
+//        if(!$this->checkUrlConfig()) {
+//            return [];
+//        }
 
         if (count(config('log-request-response.request.data.only')) == 0 and count(config('log-request-response.request.data.except')) == 0) {
             $data["request"] = $this->request->all();
@@ -88,19 +88,19 @@ class LogRequest
 
     public function log(): void
     {
-        if(config('log-request-response.request.enabled')) {
+        if(config('log-request-response.request.enabled') and $this->checkUrlConfig()) {
             $logLevel = config('log-request-response.log_level');
 
             Log::{$logLevel}(config('log-request-response.request.title'), $this->getData());
         }
     }
 
-    private function checkUrlConfig(): bool
+    private function checkUrlConfig(): ?bool
     {
         $onlyUrls = config('log-request-response.urls.only');
         $exceptUrls = config('log-request-response.urls.except');
         $currentPath = $this->request->path();
-        $result = false;
+        $result = null;
 
         if (empty($onlyUrls) && empty($exceptUrls)) {
             $result = true;
@@ -110,7 +110,7 @@ class LogRequest
             } else {
                 foreach ($onlyUrls as $onlyUrl) {
                     $onlyUrl = Str::of($onlyUrl)->trim('/');
-                    if (Str::endsWith($onlyUrl, '*') and Str::of($currentPath)->contains(Str::of($onlyUrl)->trim('*'))) {
+                    if (Str::endsWith($onlyUrl, '*') and Str::of($currentPath)->contains(Str::of($onlyUrl)->trim('*')->trim('/')->toString())) {
                         $result = true;
                         break;
                     }
@@ -119,13 +119,13 @@ class LogRequest
         } elseif (filled($exceptUrls)) {
             if(in_array($currentPath, $exceptUrls)) {
                 $result = false;
-            }
-        } else {
-            foreach ($exceptUrls as $exceptUrl) {
-                $exceptUrl = Str::of($exceptUrl)->trim('/');
-                if (Str::endsWith($exceptUrl, '*') and Str::of($currentPath)->contains(Str::of($exceptUrl)->trim('*'))) {
-                    $result = false;
-                    break;
+            } else {
+                foreach ($exceptUrls as $exceptUrl) {
+                    $exceptUrl = Str::of($exceptUrl)->trim('/');
+                    if (Str::endsWith($exceptUrl, '*') and Str::of($currentPath)->contains(Str::of($exceptUrl)->trim('*'))) {
+                        $result = false;
+                        break;
+                    }
                 }
             }
         }
