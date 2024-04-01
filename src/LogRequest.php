@@ -91,7 +91,7 @@ class LogRequest
         }
     }
 
-    private function checkUrlConfig(): ?bool
+    private function checkUrlConfig2(): ?bool
     {
         $onlyUrls = config('log-request-response.urls.only');
         $exceptUrls = config('log-request-response.urls.except');
@@ -137,4 +137,58 @@ class LogRequest
         return $result;
     }
 
+    private function checkUrlConfig(): ?bool
+    {
+        $onlyUrls = config('log-request-response.urls.only');
+        $exceptUrls = config('log-request-response.urls.except');
+        $currentPath = $this->request->path();
+
+        if (empty($onlyUrls) && empty($exceptUrls)) {
+            return true;
+        }
+
+        if ($this->isPathIncluded($onlyUrls, $currentPath)) {
+            return true;
+        }
+
+        if ($this->isPathExcluded($exceptUrls, $currentPath)) {
+            return false;
+        }
+
+        return null;
+    }
+
+    private function isPathIncluded(array $onlyUrls, string $currentPath): bool
+    {
+        foreach ($onlyUrls as $onlyUrl) {
+            if ($this->pathMatchesPattern($onlyUrl, $currentPath)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isPathExcluded(array $exceptUrls, string $currentPath): bool
+    {
+        foreach ($exceptUrls as $exceptUrl) {
+            if ($this->pathMatchesPattern($exceptUrl, $currentPath)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function pathMatchesPattern(string $pattern, string $path): bool
+    {
+        $pattern = Str::of($pattern)->trim('/');
+
+        if (Str::endsWith($pattern, '*')) {
+            $pattern = $pattern->trim('*')->trim('/');
+            return Str::startsWith($path, $pattern);
+        }
+
+        return $pattern->toString() === $path;
+    }
 }
