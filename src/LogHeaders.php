@@ -2,21 +2,13 @@
 
 namespace AymanAlhattami\LogRequestResponse;
 
+use AymanAlhattami\LogRequestResponse\Traits\WithMake;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class LogHeaders
+class LogHeaders extends BaseLog
 {
-    private Request $request;
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    public static function make(Request $request): LogHeaders
-    {
-        return new static($request);
-    }
+    use WithMake;
 
     private function getData(): array
     {
@@ -35,7 +27,7 @@ class LogHeaders
 
     public function log(): void
     {
-        if(config('log-request-response.headers.enabled')) {
+        if(config('log-request-response.headers.enabled') and $this->checkUrls() and $this->checkEnvironments()) {
             $logLevel = config('log-request-response.log_level');
 
             Log::{$logLevel}(config('log-request-response.headers.title'), $this->getData());

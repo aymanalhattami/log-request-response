@@ -6,18 +6,18 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class LogResponse
+class LogResponse extends BaseLog
 {
-    public $request;
     public $response;
 
     public function __construct($request, $response)
     {
-        $this->request = $request;
+        parent::__construct($request);
+
         $this->response = $response;
     }
 
-    public static function make($request, $response): LogResponse
+    public static function make($request, $response): static
     {
         return new static($request, $response);
     }
@@ -58,7 +58,7 @@ class LogResponse
 
     public function log(): void
     {
-        if(config('log-request-response.response.enabled')) {
+        if(config('log-request-response.response.enabled') and $this->checkUrls() and $this->checkEnvironments()) {
             $logLevel = config('log-request-response.log_level');
 
             Log::{$logLevel}(config('log-request-response.response.title'), $this->getData());

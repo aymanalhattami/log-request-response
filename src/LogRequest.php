@@ -2,44 +2,13 @@
 
 namespace AymanAlhattami\LogRequestResponse;
 
-use Illuminate\Http\Request;
+use AymanAlhattami\LogRequestResponse\Traits\WithMake;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
-class LogRequest
+class LogRequest extends BaseLog
 {
-    private Request $request;
-
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    public static function make(Request $request): LogRequest
-    {
-        return new static($request);
-    }
-
-    private function getUrl(): string
-    {
-        return $this->request->fullUrl();
-    }
-
-    private function getMethod(): string
-    {
-        return Str::of($this->request->getMethod())->upper();
-    }
-
-    private function getHeaders(): array
-    {
-        return $this->request->headers->all();
-    }
-
-    private function getIp(): string
-    {
-        return $this->request->getClientIp();
-    }
+    use WithMake;
 
     public function getData(): array
     {
@@ -84,65 +53,10 @@ class LogRequest
 
     public function log(): void
     {
-        if(config('log-request-response.request.enabled') and $this->checkUrlConfig() and $this->checkEnvironments()) {
+        if(config('log-request-response.request.enabled') and $this->checkUrls() and $this->checkEnvironments()) {
             $logLevel = config('log-request-response.log_level');
 
             Log::{$logLevel}(config('log-request-response.request.title'), $this->getData());
         }
-    }
-
-    private function checkUrlConfig(): ?bool
-    {
-        $onlyUrls = config('log-request-response.urls.only');
-        $exceptUrls = config('log-request-response.urls.except');
-        $currentPath = $this->request->path();
-        $result = null;
-
-        if (empty($onlyUrls) && empty($exceptUrls)) {
-            $result = true;
-        } elseif (filled($onlyUrls)) {
-            if(in_array($currentPath, $onlyUrls)) {
-                $result = true;
-            } else {
-                foreach ($onlyUrls as $onlyUrl) {
-                    $onlyUrl = Str::of($onlyUrl)->trim('/');
-                    if (Str::endsWith($onlyUrl, '*') and Str::of($currentPath)->contains(Str::of($onlyUrl)->trim('*')->trim('/')->toString())) {
-                        $result = true;
-                        break;
-                    }
-                }
-
-                if(is_null($result)) {
-                    $result = false;
-                }
-            }
-        } elseif (filled($exceptUrls)) {
-            if(in_array($currentPath, $exceptUrls)) {
-                $result = false;
-            } else {
-                foreach ($exceptUrls as $exceptUrl) {
-                    $exceptUrl = Str::of($exceptUrl)->trim('/');
-                    if (Str::endsWith($exceptUrl, '*') and Str::of($currentPath)->contains(Str::of($exceptUrl)->trim('*'))) {
-                        $result = false;
-                        break;
-                    }
-                }
-
-                if(is_null($result)) {
-                    $result = true;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    public function checkEnvironments(): bool
-    {
-        if(in_array(config('app.env'), config('log-request-response.environments'))) {
-            return true;
-        }
-
-        return false;
     }
 }
