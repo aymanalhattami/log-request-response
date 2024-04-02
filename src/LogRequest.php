@@ -84,7 +84,7 @@ class LogRequest
 
     public function log(): void
     {
-        if(config('log-request-response.request.enabled') and $this->checkUrlConfig()) {
+        if(config('log-request-response.request.enabled') and $this->checkUrlConfig() and $this->checkEnvironments()) {
             $logLevel = config('log-request-response.log_level');
 
             Log::{$logLevel}(config('log-request-response.request.title'), $this->getData());
@@ -135,5 +135,14 @@ class LogRequest
         }
 
         return $result;
+    }
+
+    public function checkEnvironments(): bool
+    {
+        if(in_array(config('app.env'), config('log-request-response.environments'))) {
+            return true;
+        }
+
+        return false;
     }
 }

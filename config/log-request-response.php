@@ -2,6 +2,7 @@
 return [
     /* Defines the logging level for recording request and response logs. Default: 'info'. */
     'log_level' => env('REQUEST_RESPONSE_LOG_LEVEL', 'info'),
+    'environments' => env('LOG_REQUEST_RESPONSE_ENVIRONMENTS', ['local']),
 
     'request' => [
         /* Determines whether logging of HTTP requests is enabled. */
